@@ -1,9 +1,10 @@
 use std::convert::TryFrom;
 use std::str::FromStr;
-use std::fmt::Display;
-use std::cmp::{PartialEq, Eq};
+use std::fmt::{self, Display, Formatter};
+use std::cmp::PartialEq;
 
-struct ChunkType {
+#[derive(Debug)]
+pub struct ChunkType {
     ancillary: u8,
     private: u8,
     reserved: u8,
@@ -73,14 +74,15 @@ impl FromStr for ChunkType {
 
 impl Display for ChunkType {
 
-    fn fmt() {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{}{}{}{}", self.ancillary, self.private, self.reserved, self.safe)
     }
 }
 
 impl PartialEq for ChunkType {
-}
-
-impl Eq for ChunkType {
+    fn eq(&self, chunk_type: &ChunkType) -> bool {
+        self.ancillary == chunk_type.ancillary && self.private == chunk_type.private && self.reserved == chunk_type.reserved && self.safe == chunk_type.safe
+    }
 }
 
 #[cfg(test)]
