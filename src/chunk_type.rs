@@ -14,7 +14,7 @@ pub struct ChunkType {
 const MASK: u8 = 0b00100000;
 
 impl ChunkType {
-    fn bytes(&self) -> [u8; 4] {
+    pub fn bytes(&self) -> [u8; 4] {
         [self.ancillary, self.private, self.reserved, self.safe]
     }
 
