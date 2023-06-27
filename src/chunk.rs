@@ -1,8 +1,7 @@
 use crate::chunk_type::ChunkType;
-use crate::Result;
+use crate::Result as PResult;
 use crc::{Crc, CRC_32_CKSUM};
 use std::convert::TryFrom;
-use std::error::Error;
 use std::fmt::{self, Display, Formatter};
 
 struct Chunk {
@@ -10,17 +9,6 @@ struct Chunk {
     chunk_type: ChunkType,
     data: Vec<u8>,
     crc: u32,
-}
-
-#[derive(Debug)]
-struct Err;
-
-impl Error for Err {}
-
-impl Display for Err {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "Chunk to String Error")
-    }
 }
 
 impl Chunk {
@@ -58,13 +46,38 @@ impl Chunk {
         self.crc
     }
 
-    fn data_as_string(&self) -> Result<String> {
+    fn data_as_string(&self) -> PResult<String> {
         let s = std::str::from_utf8(&self.data)?;
         Ok(s.to_string())
     }
 
     fn as_bytes(&self) -> Vec<u8> {
         self.data.to_vec()
+    }
+}
+
+impl Display for Chunk{
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{:?}",
+            self.data
+        )
+    }
+}
+
+impl TryFrom<&[u8]> for Chunk {
+    type Error = &'static str;
+
+    fn try_from(bytes: &[u8]) -> Result<Self, Self::Error> {
+        let c_type = ChunkType {
+            ancillary: bytes[0],
+            private: bytes[1],
+            reserved: bytes[2],
+            safe: bytes[3],
+        };
+        let chunk = Chunk::new(c_type, bytes[4..].to_owned());
+        Ok(chunk)
     }
 }
 
