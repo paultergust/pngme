@@ -1,34 +1,65 @@
-use crc::{Crc, CRC_32_ISO_HDLC};
 use crate::chunk_type::ChunkType;
+use crate::Result;
+use crc::{Crc, CRC_32_CKSUM};
+use std::error::Error;
+use std::fmt::{self,Formatter, Display};
 
 struct Chunk {
     length: u8,
     chunk_type: ChunkType,
     data: Vec<u8>,
-    crc: Crc<u32>,
+    crc: u32,
+}
+
+#[derive(Debug)]
+struct Err;
+
+impl Error for Err {}
+
+impl Display for Err {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "Chunk to String Error")
+    }
 }
 
 impl Chunk {
 
     fn new(chunk_type: ChunkType, data: Vec<u8>) -> Chunk {
+        let length: u8 = data.len() as u8;
+        let chsum = Crc::<u32>::new(&CRC_32_CKSUM);
+        let bytes: Vec<u8> = chunk_type.bytes().iter().chain(data.iter()).copied().collect();
+        let crc = chsum.checksum(&bytes);
+        Chunk {
+            length,
+            chunk_type,
+            data,
+            crc,
+        }
     }
 
     fn length(&self) -> u32 {
+        self.length as u32
     }
 
     fn chunk_type(&self) -> &ChunkType {
+        &self.chunk_type
     }
 
     fn data(&self) -> &[u8] {
+        &self.data
     }
 
     fn crc(&self) -> u32 {
+        self.crc
     }
 
     fn data_as_string(&self) -> Result<String> {
+        let s = std::str::from_utf8(&self.data)?;
+        Ok(s.to_string())
     }
 
     fn as_bytes(&self) -> Vec<u8> {
+        self.data.to_vec()
     }
 
 }
