@@ -1,8 +1,9 @@
 use crate::chunk_type::ChunkType;
 use crate::Result;
 use crc::{Crc, CRC_32_CKSUM};
+use std::convert::TryFrom;
 use std::error::Error;
-use std::fmt::{self,Formatter, Display};
+use std::fmt::{self, Display, Formatter};
 
 struct Chunk {
     length: u8,
@@ -23,11 +24,15 @@ impl Display for Err {
 }
 
 impl Chunk {
-
     fn new(chunk_type: ChunkType, data: Vec<u8>) -> Chunk {
         let length: u8 = data.len() as u8;
         let chsum = Crc::<u32>::new(&CRC_32_CKSUM);
-        let bytes: Vec<u8> = chunk_type.bytes().iter().chain(data.iter()).copied().collect();
+        let bytes: Vec<u8> = chunk_type
+            .bytes()
+            .iter()
+            .chain(data.iter())
+            .copied()
+            .collect();
         let crc = chsum.checksum(&bytes);
         Chunk {
             length,
@@ -61,7 +66,6 @@ impl Chunk {
     fn as_bytes(&self) -> Vec<u8> {
         self.data.to_vec()
     }
-
 }
 
 #[cfg(test)]
@@ -91,7 +95,9 @@ mod tests {
     #[test]
     fn test_new_chunk() {
         let chunk_type = ChunkType::from_str("RuSt").unwrap();
-        let data = "This is where your secret message will be!".as_bytes().to_vec();
+        let data = "This is where your secret message will be!"
+            .as_bytes()
+            .to_vec();
         let chunk = Chunk::new(chunk_type, data);
         assert_eq!(chunk.length(), 42);
         assert_eq!(chunk.crc(), 2882656334);
@@ -192,4 +198,3 @@ mod tests {
         let _chunk_string = format!("{}", chunk);
     }
 }
-

@@ -1,7 +1,7 @@
-use std::convert::TryFrom;
-use std::str::FromStr;
-use std::fmt::{self, Display, Formatter};
 use std::cmp::PartialEq;
+use std::convert::TryFrom;
+use std::fmt::{self, Display, Formatter};
+use std::str::FromStr;
 
 #[derive(Debug)]
 pub struct ChunkType {
@@ -73,15 +73,21 @@ impl FromStr for ChunkType {
 }
 
 impl Display for ChunkType {
-
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{}{}{}{}", self.ancillary, self.private, self.reserved, self.safe)
+        write!(
+            f,
+            "{}{}{}{}",
+            self.ancillary, self.private, self.reserved, self.safe
+        )
     }
 }
 
 impl PartialEq for ChunkType {
     fn eq(&self, chunk_type: &ChunkType) -> bool {
-        self.ancillary == chunk_type.ancillary && self.private == chunk_type.private && self.reserved == chunk_type.reserved && self.safe == chunk_type.safe
+        self.ancillary == chunk_type.ancillary
+            && self.private == chunk_type.private
+            && self.reserved == chunk_type.reserved
+            && self.safe == chunk_type.safe
     }
 }
 
