@@ -5,10 +5,10 @@ use std::str::FromStr;
 
 #[derive(Debug)]
 pub struct ChunkType {
-    ancillary: u8,
-    private: u8,
-    reserved: u8,
-    safe: u8,
+    pub ancillary: u8,
+    pub private: u8,
+    pub reserved: u8,
+    pub safe: u8,
 }
 
 const MASK: u8 = 0b00100000;
