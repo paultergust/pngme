@@ -4,7 +4,8 @@ use crc::{Crc, CRC_32_CKSUM};
 use std::convert::TryFrom;
 use std::fmt::{self, Display, Formatter};
 
-struct Chunk {
+#[derive(Debug)]
+pub struct Chunk {
     length: u8,
     chunk_type: ChunkType,
     data: Vec<u8>,
