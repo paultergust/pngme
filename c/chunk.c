@@ -1,10 +1,13 @@
+#include <string.h>
 #include <stdlib.h>
 #include "helper.h"
 #include "chunk_type.h"
 #include "chunk.h"
+#include "crc_32.h"
 
 Chunk new_chunk(ChunkType type, int* data) {
-  Chunk chunk = {.length = get_size(data), .type = type, .data = data, .crc = NULL};
+  int length = get_size(data);
+  Chunk chunk = {.length = length, .type = type, .data = data, .crc = crc32(data, length)};
   return chunk;
 }
 
@@ -20,7 +23,7 @@ int* data(Chunk* chunk) {
   return chunk->data;
 }
 
-int crc(Chunk* chunk) {
+uint32_t crc(Chunk* chunk) {
   return chunk->crc;
 }
 
