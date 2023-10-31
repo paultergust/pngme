@@ -24,19 +24,19 @@ int is_valid(ChunkType* type) {
 }
 
 int is_critical(ChunkType *type) {
-  return !(type->ancillary & CASE_BITMASK);
+  return !((type->ancillary & CASE_BITMASK)>>5);
 }
 
 int is_public(ChunkType *type) {
-  return !(type->priv & CASE_BITMASK);
+  return !((type->priv & CASE_BITMASK)>>5);
 }
 
 int is_reserved_bit_valid(ChunkType *type) {
-  return !(type->reserved & CASE_BITMASK);
+  return !((type->reserved & CASE_BITMASK)>>5);
 }
 
 int is_safe_to_copy(ChunkType *type) {
-  return (type->ancillary & CASE_BITMASK);
+  return ((type->ancillary & CASE_BITMASK)>>5);
 }
 
 ChunkType try_from(int* bytes) {
