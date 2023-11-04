@@ -1,5 +1,5 @@
-#ifndef _CHUNKTYPETH_
-#define _CHUNKTYPETH_
+#ifndef _CHUNKTYPEH_
+#define _CHUNKTYPEH_
 
 typedef struct {
   int ancillary;
@@ -8,12 +8,11 @@ typedef struct {
   int safe;
 } ChunkType;
 
-int* bytes(ChunkType* type);
+int* to_bytes(ChunkType* type);
 int is_valid(ChunkType* type);
 int is_critical(ChunkType* type);
 int is_reserved_bit_valid(ChunkType* type);
 int is_safe_to_copy(ChunkType* type);
-ChunkType try_from(int* bytes);
-ChunkType from_str(char* str);
+ChunkType from_bytes(int bytes[]);
 
 #endif
