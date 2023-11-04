@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include "crc_32.h"
 
-#ifndef _CHUNKTH_
-#define _CHUNKTH_
+#ifndef _CHUNKH_
+#define _CHUNKH_
 
 typedef struct {
   int length;
