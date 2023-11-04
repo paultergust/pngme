@@ -1,13 +1,10 @@
 #include "../chunk_type.c"
+#include "point.c"
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #define CHUNK_TYPE_SIZE 4
-
-void point() {
-  printf(".");
-}
 
 // test_chunk_type_from_bytes 
 void test_chunk_type_from_bytes() {
