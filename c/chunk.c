@@ -7,7 +7,7 @@
 
 Chunk new_chunk(ChunkType type, Vector* data) {
   int length = data->total;
-  Chunk chunk = {.length = length, .type = type, .data = data, .crc = crc32(data, length)};
+  Chunk chunk = {.length = length, .type = type, .data = data, .crc = crc32(data->items, length)};
   return chunk;
 }
 
