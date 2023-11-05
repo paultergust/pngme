@@ -13,7 +13,7 @@ typedef struct {
   uint32_t crc;
 } Chunk;
 
-Chunk new_chunk(ChunkType type, Vector* data, int length);
+Chunk new_chunk(ChunkType type, Vector* data);
 
 int length(Chunk* chunk);
 
