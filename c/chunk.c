@@ -5,8 +5,7 @@
 #include "chunk.h"
 #include "crc_32.h"
 
-Chunk new_chunk(ChunkType type, Vector* data) {
-  int length = get_size(data->items);
+Chunk new_chunk(ChunkType type, Vector* data, int length) {
   Chunk chunk = {.length = length, .type = type, .data = data, .crc = crc32(data, length)};
   return chunk;
 }
