@@ -5,7 +5,7 @@
 typedef struct Vector {
   int capacity;
   int total;
-  int8_t * items;
+  uint8_t * items;
 } Vector;
 
 #define UNDEFINE -1
@@ -13,9 +13,9 @@ typedef struct Vector {
 
 int vectorTotal(Vector *v);
 int vectorResize(Vector *v, int capacity);
-int vectorAppend(Vector *v, int8_t item);
-int vectorSet(Vector *v, int index, int8_t item);
-int8_t vectorGet(Vector *v, int index);
+int vectorAppend(Vector *v, uint8_t item);
+int vectorSet(Vector *v, int index, uint8_t item);
+uint8_t vectorGet(Vector *v, int index);
 int vectorDelete(Vector *v, int index);
 int vectorFree(Vector *v);
 void vector_init(Vector *v, int capacity);
