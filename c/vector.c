@@ -12,7 +12,7 @@ int vectorTotal(Vector *v){
 int vectorResize(Vector *v, int capacity) {
   int status = UNDEFINE;
   if (v) {
-    void *items = realloc(v->items, sizeof(void *) * capacity);
+    int8_t *items = realloc(v->items, sizeof(int8_t) * capacity);
     if (items) {
       v->items = items;
       v->capacity = capacity;
@@ -22,7 +22,7 @@ int vectorResize(Vector *v, int capacity) {
   return status;
 }
 
-int vectorAppend(Vector *v, int item) {
+int vectorAppend(Vector *v, int8_t item) {
   int status = UNDEFINE;
   if (v) {
     if (v->capacity == v->total) {
@@ -38,7 +38,7 @@ int vectorAppend(Vector *v, int item) {
   return status;
 }
 
-int vectorSet(Vector *v, int index, int item) {
+int vectorSet(Vector *v, int index, int8_t item) {
   int status = UNDEFINE;
   if (v) {
     if ((index >= 0) && (index < v->total)) {
@@ -49,7 +49,7 @@ int vectorSet(Vector *v, int index, int item) {
   return status;
 }
 
-int vectorGet(Vector *v, int index) {
+int8_t vectorGet(Vector *v, int index) {
   int readData;
   if (v) {
     if ((index >= 0) && (index < v->total)) {
@@ -93,6 +93,6 @@ int vectorFree(Vector *v) {
 void vector_init(Vector *v, int capacity) {
   v->capacity = capacity;
   v->total = 0;
-  v->items = malloc(sizeof(void *) * v->capacity);
+  v->items = malloc(sizeof(int8_t) * v->capacity);
 }
 
