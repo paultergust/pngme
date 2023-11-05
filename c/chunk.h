@@ -1,6 +1,7 @@
 #include "chunk_type.h"
 #include <stdint.h>
 #include "crc_32.h"
+#include "vector.h"
 
 #ifndef _CHUNKH_
 #define _CHUNKH_
@@ -8,17 +9,17 @@
 typedef struct {
   int length;
   ChunkType type;
-  int* data;
+  Vector* data;
   uint32_t crc;
 } Chunk;
 
-Chunk new_chunk(ChunkType type, int* data);
+Chunk new_chunk(ChunkType type, Vector* data);
 
 int length(Chunk* chunk);
 
 ChunkType chunk_type(Chunk* chunk);
 
-int* data(Chunk* chunk);
+Vector* data(Chunk* chunk);
 
 uint32_t crc(Chunk* chunk);
 
