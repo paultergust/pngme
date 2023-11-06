@@ -29,3 +29,12 @@ void uint32_to_uint8(uint32_t input, uint8_t output[4]) {
     output[2] = (input >> 8) & 0xFF;
     output[3] = input & 0xFF;
 }
+
+uint32_t uint8_to_uint32(uint8_t input[4]) {
+  uint32_t output = 0;
+    output |= (uint32_t)input[0] << 24;
+    output |= (uint32_t)input[1] << 16;
+    output |= (uint32_t)input[2] << 8;
+    output |= (uint32_t)input[3];
+    return output;
+}
