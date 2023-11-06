@@ -40,7 +40,7 @@ uint8_t is_safe_to_copy(ChunkType *type) {
   return ((type->safe & CASE_BITMASK)>>5);
 }
 
-ChunkType from_bytes(uint8_t bytes[]) {
+ChunkType from_bytes(uint8_t bytes[4]) {
   ChunkType type = { .ancillary= bytes[0], .priv = bytes[1], .reserved = bytes[2], .safe = bytes[3]};
   if (!is_valid(&type)) {
     printf("Invalid chunk found! %d - %d - %d - %d\n", type.ancillary, type.priv, type.reserved, type.safe);
