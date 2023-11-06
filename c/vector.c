@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "vector.h"
 
-int vectorTotal(Vector *v){
+int vector_total(Vector *v){
   int count = UNDEFINE;
   if (v){
     count = v->total;
@@ -9,7 +9,7 @@ int vectorTotal(Vector *v){
   return count;
 }
 
-int vectorResize(Vector *v, int capacity) {
+int vector_resize(Vector *v, int capacity) {
   int status = UNDEFINE;
   if (v) {
     void *items = realloc(v->items, sizeof(void *) * capacity);
@@ -22,11 +22,11 @@ int vectorResize(Vector *v, int capacity) {
   return status;
 }
 
-int vectorAppend(Vector *v, void* item) {
+int vector_append(Vector *v, void* item) {
   int status = UNDEFINE;
   if (v) {
     if (v->capacity == v->total) {
-      status = vectorResize(v, v->capacity * 2);
+      status = vector_resize(v, v->capacity * 2);
       if (status != UNDEFINE) {
         v->items[v->total++] = item;
       }
@@ -38,7 +38,7 @@ int vectorAppend(Vector *v, void* item) {
   return status;
 }
 
-int vectorSet(Vector *v, int index, void* item) {
+int vector_set(Vector *v, int index, void* item) {
   int status = UNDEFINE;
   if (v) {
     if ((index >= 0) && (index < v->total)) {
@@ -49,7 +49,7 @@ int vectorSet(Vector *v, int index, void* item) {
   return status;
 }
 
-void *vectorGet(Vector *v, int index) {
+void *vector_get(Vector *v, int index) {
   void* readData;
   if (v) {
     if ((index >= 0) && (index < v->total)) {
@@ -59,7 +59,7 @@ void *vectorGet(Vector *v, int index) {
   return readData;
 }
 
-int vectorDelete(Vector *v, int index) {
+int vector_delete(Vector *v, int index) {
   int status = UNDEFINE;
   int i = 0;
   if (v) {
@@ -73,14 +73,14 @@ int vectorDelete(Vector *v, int index) {
     }
     v->total--;
     if ((v->total > 0) && ((v->total) == (v->capacity / 4))) {
-      vectorResize(v, v->capacity / 2);
+      vector_resize(v, v->capacity / 2);
     }
     status = SUCCESS;
   }
   return status;
 }
 
-int vectorFree(Vector *v) {
+int vector_free(Vector *v) {
   int status = UNDEFINE;
   if (v) {
     free(v->items);
