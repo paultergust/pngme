@@ -33,32 +33,34 @@ char* data_as_str(Chunk* chunk) {
   return (char*)chunk->data;
 }
 
-Chunk try_from_bytes(Vector *vec) {
-
+Chunk try_from_bytes(Vector *vec, int index) {
+  //TODO take index as param and actually count correctly this time
   //first 4 are the length
   uint8_t len_bytes[4];
-  for (int a = 0; a < 4; a++) {
+  for (int a = index; a < (index + 4); a++) {
     len_bytes[a] = (uint8_t)vec->items[a];
   }
+  index += 4;
   int length = uint8_to_uint32(len_bytes);
 
   //now for the type
   uint8_t type_bytes[4];
-  for (int b = 4; b < 8; b++) {
+  for (int b = index; b < (index + 8); b++) {
     type_bytes[b] = (uint8_t)vec->items[b];
   }
+  index += 8;
   ChunkType type = from_bytes(type_bytes);
 
   //then, the next (length) are the data
   Vector data;
   vector_init(&data, length);
-  for (int c = 4; c < length; c++) {
+  for (int c = index; c < (index + length); c++) {
     vector_append(&data, vec->items[c]);
   }
-
+  index += length;
   //and then 4 for crc (which should match data)
   uint8_t crc_bytes[4];
-  for (int d = 0; d < (length + 4); d++) {
+  for (int d = index; d < (index + 4); d++) {
     crc_bytes[d] = (uint8_t)vec->items[d];
   }
   uint32_t crc = uint8_to_uint32(crc_bytes);
@@ -73,3 +75,4 @@ Chunk try_from_bytes(Vector *vec) {
   //if anything fails, throw an error
   return chunk;
 }
+

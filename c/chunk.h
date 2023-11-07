@@ -25,4 +25,6 @@ uint32_t crc(Chunk* chunk);
 
 char* data_as_str(Chunk* chunk);
 
+Chunk try_from_bytes(Vector *vec, int index);
+
 #endif
